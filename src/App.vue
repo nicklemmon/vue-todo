@@ -23,6 +23,11 @@
 <style>
   @import url('https://fonts.googleapis.com/css?family=Lato:400,700,900');
 
+  :root {
+    --spacing--sm: 25px;
+    --spacing--md: 50px;
+  }
+
   * {
     box-sizing: border-box;
   }
