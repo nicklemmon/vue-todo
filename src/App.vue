@@ -8,7 +8,7 @@
   import Todo from './Todo.vue'
 
   export default {
-    name: 'app',
+    name: 'App',
     data () {
       return {
         msg: 'Welcome to Your Vue.js App'

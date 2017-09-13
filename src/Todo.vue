@@ -27,6 +27,8 @@
 </template>
 
 <script>
+  import Alert from './Alert.vue'
+
   export default {
     name: 'Todo',
     props: ['classes', 'owner'],
