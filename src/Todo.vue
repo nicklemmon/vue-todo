@@ -1,25 +1,27 @@
 <template>
   <div class="todo" :class="classes">
-    <div class="todo__header">{{ owner }} to-do list</div>
+    <div class="header">{{ owner }} to-do list</div>
 
-    <div class="todo__blk">
+    <div class="content">
       <label class="u-visually-hidden" for="enter-todo-item">Enter to-do item</label>
 
-      <div class="todo__input-btn-grp">
-        <input v-model="todoText" v-on:keyup.enter="addItem" class="todo__input" type="text" id="enter-todo-item" name="enter-todo-item" placeholder="e.g., wash the car" aria-describedby="todo__error-msg">
+      <div class="input-btn-grp">
+        <input v-model="todoText" v-on:keyup.enter="addItem" class="input" type="text" id="enter-todo-item" name="enter-todo-item" placeholder="e.g., wash the car" aria-describedby="error-msg">
 
-        <button v-on:click="addItem" class="todo__input-btn" tabindex="0">
+        <button v-on:click="addItem" class="input-btn" tabindex="0">
           <span class="u-visually-hidden">Add Item</span>
         </button>
       </div>
 
-      <span class="error-msg" id="todo__error-msg">{{ errorText }}</span>
+      <span class="error-msg" id="error-msg">{{ errorText }}</span>
     </div>
 
-    <ul class="todo__list">
-      <transition-group name="todo__list-item">
-        <li v-for="(todoItem, index) in todoItems" v-on:click="checkItem( index, todoItem )" v-bind:key="todoItem" class="todo__list-item" :class="{ checked : todoItem.isChecked }" role="button" tabindex="0" href="javascript:void(0);">
+    <ul class="list">
+      <transition-group name="list-item">
+        <li v-for="(todoItem, index) in todoItems" v-on:click="checkItem( index, todoItem )" v-bind:key="todoItem" class="list-item" :class="{ checked : todoItem.isChecked }" role="button" tabindex="0" href="javascript:void(0);">
           {{ todoItem.text }}
+
+          <span class="check" role="presentation"></span>
         </li>
       </transition-group>
     </ul>
@@ -67,7 +69,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .todo {
     background: #fff;
     box-shadow: 0 4px 8px 0 #dbdbdb;
@@ -75,7 +77,7 @@
     width: 400px;
   }
 
-  .todo__header {
+  .header {
     align-items: center;
     background: #fafafa;
     color: #30383e;
@@ -87,11 +89,11 @@
     text-transform: uppercase;
   }
 
-  .todo__blk {
+  .content {
     padding: 25px;
   }
 
-  .todo__list {
+  .list {
     border-top: 1px solid #f1f1f1;
     overflow: hidden;
     padding-bottom: 25px;
@@ -100,7 +102,7 @@
     -webkit-padding-start: 0;
   }
 
-  .todo__list-item {
+  .list-item {
     align-items: center;
     border-bottom: 1px solid #f1f1f1;
     cursor: pointer;
@@ -108,47 +110,60 @@
     justify-content: space-between;
     list-style-type: none;
     height: 50px;
+    outline-offset: -1px;
     padding: 0 25px;
     position: relative; /* allows absolute positioning within */
     transition: background 0.4s ease-in-out;
   }
 
-  .todo__list-item-enter-active,
-  .todo__list-item-leave-active {
-    transition: opacity 0.4s ease-in-out,
-                transform 0.4s ease-in-out;
+  .list-item-enter-active {
+    animation: slideRight 0.4s ease-in-out;
   }
 
-  .todo__list-item-enter,
-  .todo__list-item-leave-active {
-    opacity: 0;
-    transform: translateX(-100%);
+  .list-item-leave-active {
+    animation: slideLeft 0.4s ease-in-out;
+    animation-delay: 0.2s;
   }
 
-  .todo__list-item:after {
-    background: #fff;
-    border: 1px solid #dbdbdb;
-    border-radius: 50%;
-    content: '';
-    display: block;
-    height: 25px;
-    width: 25px;
+  .list-item-leave-active .check:after {
+    transform: rotate(45deg) scale(1);
   }
 
-  .todo__list-item:hover,
-  .todo__list-item:focus {
+  .list-item:hover {
     background: #f1f1f1;
   }
 
-  .todo__list-item:focus {
-    outline: 0;
+  .check {
+    align-items: center;
+    background: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    padding: 12.5px;
+    position: relative; /* allows absolute positioning within */
   }
 
-  .todo__input-btn-grp {
+  /* this is the actual check */
+  .check:after {
+    background: transparent;
+    content: '';
+    left: 35%;
+    height: 50%;
+    width: 25%;
+    border-right: 2px solid #7ed321;
+    border-bottom: 2px solid #7ed321;
+    position: absolute;
+    top: 12.5%;
+    transform: rotate(45deg) scale(0);
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .input-btn-grp {
     display: flex;
   }
 
-  .todo__input {
+  .input {
     border: 1px solid #f1f1f1;
     border-radius: 5px 0 0 5px;
     border-right: 0; /* not necessary when button present */
@@ -160,7 +175,7 @@
     -webkit-appearance: none;
   }
 
-  .todo__input-btn {
+  .input-btn {
     align-items: center;
     background: #4990e2;
     border: 1px solid #3b73b3;
@@ -175,12 +190,12 @@
     transition: background 0.3s ease-in-out;
   }
 
-    .todo__input-btn:hover {
+    .input-btn:hover {
       background: #3b73b3;
     }
 
-    .todo__input-btn:after,
-    .todo__input-btn:before {
+    .input-btn:after,
+    .input-btn:before {
       content: '';
       background: white;
       border-radius: 2px;
@@ -192,7 +207,7 @@
       top: 48%;
     }
 
-    .todo__input-btn:after {
+    .input-btn:after {
       transform: rotate(90deg);
     }
 
