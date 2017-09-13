@@ -54,9 +54,6 @@
         this.errorText = msgContent;
       },
       checkItem: function( index, todoItem ) {
-        // 1. add the appropriate class to the clicked element
-        // 2. fire `removeIndex()` when `transitioned` event fires
-        console.log( todoItem );
         todoItem.isChecked = !todoItem.isChecked;
 
         let removeIndex = () => {
