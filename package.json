@@ -1,9 +1,8 @@
 {
-  "name": "vue-project",
-  "description": "A Vue.js project",
-  "version": "1.0.0",
-  "author": "Nick Lemmon <nicklemmonbbt@gmail.com>",
-  "private": true,
+  "name": "vue-todo",
+  "description": "Trying to learn Vue with a classic todo app",
+  "version": "0.5.0",
+  "author": "Nick Lemmon <nick.lemmon@gmail.com>",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
